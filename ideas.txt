@@ -1,0 +1,11 @@
+For the language:
+Types are just structures of built-in types. Also option for things to be evaluated lazily.
+That is, "Lazy" is built-in. If f:()->A, then Lazy(f):A
+
+that way, natural numbers (or any GADT) can be defined like this:
+
+function Nat(): Type{
+  return 1xLazy(Nat)
+}
+
+I don't know if identity type is possible though.
