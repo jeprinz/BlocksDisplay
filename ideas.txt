@@ -9,3 +9,46 @@ function Nat(): Type{
 }
 
 I don't know if identity type is possible though.
+
+----------------------------------------------------------------------------------------------------
+Source code:
+
+Source code consists of two things: an AST and a table of unique->names
+
+AST works like (described with GADTs)
+Each node in AST may contain other nodes of specific types, according to whats below
+Note also that free variables may be placed instead of a node. This is only valid if it is in scope.
+Free variables are added to scope in two ways:
+1) Arguments to function in scope for everything in return section
+2) When newVar caled in element of list of body of a procedure, for the rest of the body and the return
+3) newType creates named constructor and pattern matching functions. These also in scope for rest of procedure
+
+data Procedure(output: Type) where
+  procedure(
+    output: Type,
+    body: List(Function<Empty, Empty>),
+    return: Function<Empty, output>
+  ) : Scope(output)
+
+data Function(input: Type, output: Type) where
+  function(
+    input: Type,
+    output: Type,
+    return: Function<Empty, output>
+  ) : Function(input, output)
+
+
+data Type where
+  Boolean, Int, Float : Type,
+  List(t: Type) : Type,
+  newType(constructors: List(List(Type),idNumber), idNumber) : Type
+  -----------------------------------------------------------------------------------
+  The idNumber on each constructor becomes in-scope name of function which is the constructor
+  The idNumber at the end is the in-scope name of pattern-matching function
+  -----------------------------------------------------------------------------------
+
+
+
+Finally, there are some built in functions: --note: should these be down here?
+newVar(type: Type, id: idNumber) : Function(Empty, Empty)
+add(Int, Int): Int
