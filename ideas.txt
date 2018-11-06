@@ -23,6 +23,8 @@ Free variables are added to scope in two ways:
 2) When newVar caled in element of list of body of a procedure, for the rest of the body and the return
 3) newType creates named constructor and pattern matching functions. These also in scope for rest of procedure
 
+The AST root node is a Function(Empty, Empty), and is made up of nodes of the following types:
+
 data Procedure(output: Type) where
   procedure(
     output: Type,
@@ -50,5 +52,9 @@ data Type where
 
 
 Finally, there are some built in functions: --note: should these be down here?
+Empty, Int : Type
 newVar(type: Type, id: idNumber) : Function(Empty, Empty)
 add(Int, Int): Int
+apply : (input : Type) → (output : Type) → Function input output → Function Empty input → Function Empty output
+
+see AST.agda for updated version
