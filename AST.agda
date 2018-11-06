@@ -16,6 +16,8 @@ data Type : Set where
 --   The idNumber at the end is the in-scope name of pattern-matching function
 --   -----------------------------------------------------------------------------------
 
+-- should I have data Value : Type → Set, and not use Function Empty type?
+
 data Function : Type → Type → Set where
   function : (input : Type) → (output : Type) → (return : Function Empty output) → Function input output
   newVar : (type : Type) → (id : UniqueId) → Function Empty Empty
